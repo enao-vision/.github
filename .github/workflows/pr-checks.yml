@@ -12,13 +12,6 @@ jobs:
       pull-requests: write
       id-token: write
 
-  deps:
-    uses: enao-vision/.github/.github/workflows/dependency-review.yml@main
-    permissions:
-      contents: read
-      pull-requests: write
-      id-token: write
-
   release-notes-preview:
     if: github.base_ref == 'main'
     uses: enao-vision/.github/.github/workflows/release-notes-preview.yml@main
