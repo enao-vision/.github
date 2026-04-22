@@ -14,3 +14,10 @@ jobs:
       - uses: anthropics/claude-code-action@beta
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          direct_prompt: |
+            Please review this pull request. Focus on:
+            - Bugs or logic errors
+            - Security issues
+            - Code quality and maintainability
+            - Missing error handling
+            Keep feedback concise and constructive.
