@@ -11,7 +11,13 @@ jobs:
       pull-requests: write
       id-token: write
     steps:
-      - uses: anthropics/claude-code-action@beta
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # needed so Claude can see the full diff vs main
+          
+      - name: Review Code
+        uses: anthropics/claude-code-action@beta
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           direct_prompt: |
