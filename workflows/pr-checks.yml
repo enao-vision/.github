@@ -7,7 +7,7 @@ on:
 
 jobs:
   claude:
-    uses: enao-vision/.github/.github/workflows/claude-review.yml@main
+    uses: enao-vision/.github/.github/workflows/pr-review.yml@main
     secrets: inherit
 
   deps:
