@@ -12,7 +12,6 @@ name: PR Checks
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
   checks:
@@ -27,12 +26,13 @@ Secrets are set once at the org level and inherited automatically — no per-rep
 | Workflow | Description |
 |----------|-------------|
 | [`pr-checks.yml`](workflows/pr-checks.yml) | Orchestrator — calls all checks below |
-| [`claude-review.yml`](workflows/claude-review.yml) | AI-powered PR review via Claude |
+| [`pr-review.yml`](workflows/pr-review.yml) | AI-powered PR Review |
 | [`dependency-review.yml`](workflows/dependency-review.yml) | Flags vulnerable/license-restricted dependencies |
-| [`release-notes-preview.yml`](workflows/release-notes-preview.yml) | Claude comments a release notes preview for PRs targeting main |
+| [`pr-title-lint.yml`](workflows/pr-title-lint.yml) | Enforces conventional commit format (`feat:`, `fix:`, etc.) |
+| [`release-drafter.yml`](workflows/release-drafter.yml) | Auto-drafts release notes from merged PR titles |
 
 ## Org Secrets
 
 | Secret | Used by |
 |--------|---------|
-| `ANTHROPIC_API_KEY` | `claude-review.yml` |
+| `ANTHROPIC_API_KEY` | `pr-review.yml` |
