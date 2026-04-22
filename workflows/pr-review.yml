@@ -1,10 +1,9 @@
-name: Claude Code Review
+name: Code Review
 
 on:
   workflow_call:
     secrets:
-      anthropic_api_key:
-        required: true
+      inherit: true
 
 jobs:
   review:
@@ -15,4 +14,4 @@ jobs:
     steps:
       - uses: anthropics/claude-code-action@beta
         with:
-          anthropic_api_key: ${{ secrets.anthropic_api_key }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}

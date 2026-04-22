@@ -1,0 +1,35 @@
+name: Release Notes Preview
+
+on:
+  workflow_call:
+    secrets:
+      inherit: true
+
+jobs:
+  notes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get commits in this PR
+        id: commits
+        run: |
+          echo "log<<EOF" >> $GITHUB_OUTPUT
+          git log origin/main..HEAD --pretty=format:"- %s" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          direct_prompt: |
+            Write a short release notes entry for this PR as a GitHub comment.
+            Use plain user-facing language. Group into Features/Fixes/Maintenance if relevant.
+            Keep it concise — this is one PR, not a full release.
+
+            Commits in this PR:
+            ${{ steps.commits.outputs.log }}

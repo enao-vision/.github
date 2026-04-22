@@ -2,47 +2,34 @@
 
 Shared GitHub configuration and reusable workflows for the enao-vision organization.
 
-## Reusable Workflows
+## Usage
 
-Call these from any repo in the org using `workflow_call`.
-
-### Claude Code Review
-
-AI-powered PR review via [Claude Code Action](https://github.com/anthropics/claude-code-action).
+Each repo needs one caller file. All checks run in parallel on every PR:
 
 ```yaml
-# .github/workflows/review.yml
-name: Review
+# each-repo → .github/workflows/pr-checks.yml
+name: PR Checks
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
-  claude:
-    uses: enao-vision/.github/.github/workflows/claude-review.yml@main
-    secrets:
-      anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+  checks:
+    uses: enao-vision/.github/.github/workflows/pr-checks.yml@main
+    secrets: inherit
 ```
 
-Requires `ANTHROPIC_API_KEY` set as an org-level secret.
+Secrets are set once at the org level and inherited automatically — no per-repo secret configuration needed. To add a new check org-wide, update [`workflows/pr-checks.yml`](workflows/pr-checks.yml) — no changes needed in individual repos.
 
-### Dependency Review
+## Workflows
 
-Scans PRs for newly introduced vulnerable or license-restricted dependencies. Fails on `high` severity findings and posts a summary comment.
-
-```yaml
-# .github/workflows/dependency-review.yml
-name: Dependency Review
-
-on:
-  pull_request:
-
-jobs:
-  deps:
-    uses: enao-vision/.github/.github/workflows/dependency-review.yml@main
-```
-
-No secrets required — uses the built-in `GITHUB_TOKEN`.
+| Workflow | Description |
+|----------|-------------|
+| [`pr-checks.yml`](workflows/pr-checks.yml) | Orchestrator — calls all checks below |
+| [`claude-review.yml`](workflows/claude-review.yml) | AI-powered PR review via Claude |
+| [`dependency-review.yml`](workflows/dependency-review.yml) | Flags vulnerable/license-restricted dependencies |
+| [`release-notes-preview.yml`](workflows/release-notes-preview.yml) | Claude comments a release notes preview for PRs targeting main |
 
 ## Org Secrets
 
