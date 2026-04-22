@@ -7,13 +7,13 @@ on:
 
 jobs:
   claude:
-    uses: enao-vision/.github/.github/workflows/pr-review.yml@main
+    uses: enao-vision/.github/workflows/pr-review.yml@main
     secrets: inherit
 
   deps:
-    uses: enao-vision/.github/.github/workflows/dependency-review.yml@main
+    uses: enao-vision/.github/workflows/dependency-review.yml@main
 
   release-notes-preview:
     if: github.base_ref == 'main'
-    uses: enao-vision/.github/.github/workflows/release-notes-preview.yml@main
+    uses: enao-vision/.github/workflows/release-notes-preview.yml@main
     secrets: inherit
